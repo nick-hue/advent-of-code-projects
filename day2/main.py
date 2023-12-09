@@ -4,9 +4,9 @@ with open("input.txt", "r") as f:
     data = [item.strip("\n") for item in f.readlines()]
 
 def isPullPossible(dict):
-    if dict['red'] > 12 or dict['green'] > 13 or dict['blue'] > 14:
-        return False
-    return True
+    if int(dict['red']) <= 12 and int(dict['green']) <= 13 and int(dict['blue']) <= 14:
+        return True
+    return False
 
 valid_games = []
 for current_game in data:
@@ -18,7 +18,7 @@ for current_game in data:
         'red': 0,
         'green': 0,
         'blue': 0,
-        'isPossible': True
+        'isPossible': False
     }
 
     for set in sets:
@@ -29,8 +29,8 @@ for current_game in data:
 
     current_data_dict['isPossible'] = isPullPossible(current_data_dict)
 
-    print(current_data_dict)    
     if (current_data_dict['isPossible']):
+        print(current_data_dict)
         valid_games.append(current_data_dict['game_id'])
 
 print(valid_games)
