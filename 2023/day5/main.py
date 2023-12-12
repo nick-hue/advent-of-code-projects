@@ -24,7 +24,6 @@ with open("input.txt") as f:
     data = [item.strip("\n") for item in f.readlines() if item.strip("\n")!='']
 
 seeds = data[0].split(":")[1].strip().split(" ")
-print(seeds)
 
 input_data = data[1:]
 
@@ -49,29 +48,19 @@ for map in list_of_maps:
     range_map_list.append(range_maps)
 
 locations = []
+for seed in seeds:
+    coming_source = int(seed)
+    for range_maps in range_map_list:
+        for map in range_maps:
+            for pair in map:
+                dst, src = pair
+                if src == coming_source:
+                    coming_source = dst
+                    break
+            else:
+                continue
+            break
+    locations.append(coming_source)
 
-print("LEN", len(range_map_list))
-
-seed = seeds[0]
-range_map_index = 0
-dest = coming_source = int(seed)
-while (range_map_index < 7):
-    print(f"Name: {list_of_maps[range_map_index][0]} | Info: {list_of_maps[range_map_index][1:]}")
-    print(f"Coming: {coming_source}")
-    
-    for map in range_map_list[range_map_index]:
-        found = False
-        #print(f"Map: {map}")
-        for dest, src in map:
-            if coming_source == src:
-                print(f"Source {src} -> dest {dest}")
-                print("HERE\n")
-                coming_source = dest
-                range_map_index+=1
-                found = True
-                break
-        if not found:
-            range_map_index+=1
-    
-    
-print(dest)
+lowest_location = min(locations)
+print(lowest_location)
