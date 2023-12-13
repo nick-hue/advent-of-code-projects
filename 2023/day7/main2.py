@@ -15,25 +15,37 @@ class HandType(Enum):
 def get_hand_type(hand):
     chars = defaultdict(int)
     for char in hand:
+        if char == "J":
+            continue
         chars[char] += 1
 
-    print(chars)
+    j_count = hand.count("J")
+    
+    keys = list(chars.keys())
     values = list(chars.values())
-    print(f"Values: {values}")
-    if 5 in values:
+    card_count = sorted(values, reverse=True)
+    print(f"Card count: {card_count}")
+    print(f"Chars: {chars}")
+    print(f"Keys: {keys}\nValues: {values}")
+    
+    if not card_count:
+        return HandType.FIVE_OF_A_KIND
+
+    if card_count[0] + j_count == 5:
         hand_type = HandType.FIVE_OF_A_KIND
-    elif 4 in values:
+    elif card_count[0] + j_count == 4:
         hand_type = HandType.FOUR_OF_A_KIND
-    elif 3 in values and 2 in values:
+    elif card_count[0] + j_count == 3 and card_count[1] == 2:     # O JUL; TP CLATACHRE
         hand_type = HandType.FULL_HOUSE
-    elif 3 in values:
+    elif card_count[0] + j_count == 3:
         hand_type = HandType.THREE_OF_A_KIND
-    elif values.count(2) == 2:
+    elif values.count(2) == 2 or (2 in values and j_count==1):
         hand_type = HandType.TWO_PAIR
-    elif 2 in values:
+    elif card_count[0] == 2 or j_count == 1:           
         hand_type = HandType.ONE_PAIR
     else:
         hand_type = HandType.HIGH_CARD
+    print(f"Hand: {hand} is {hand_type}\n")
 
     return hand_type
 
@@ -48,12 +60,9 @@ def split_deck(deck):
 def get_rankings(deck):
     splitted_deck = split_deck(deck)
 
-    print(splitted_deck)
-
     sorted_by_cards = []
     for hand_type in splitted_deck.keys():
         sorted_hand_type = sorted(splitted_deck[hand_type], key=functools.cmp_to_key(compare))
-
 
         for item in sorted_hand_type:
             sorted_by_cards.append(item)
@@ -96,13 +105,13 @@ for line in data:
 
 sorted_deck = sorted(deck_info, key=lambda x: x['type'].value)
 
-
 deck_with_rankings = get_rankings(sorted_deck)
+print(deck_with_rankings)
 
-print(f"Sorted Cards: {deck_with_rankings}")
 total = 0
-for card in deck_with_rankings:
-    total+=card['ranking']*card['bid']
+for hand in deck_with_rankings:
+    #print(f"{hand['hand']} has {hand['ranking']}")
+    total += hand['ranking'] * hand['bid']
 
 print(total)
 

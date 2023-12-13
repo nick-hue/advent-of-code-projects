@@ -1,23 +1,20 @@
 import operator as op
 
 def get_maps(input_data):
-    list_of_maps = [[],[],[],[],[],[],[]]
+    list_of_maps = []
+    current_map = []
 
-    list_index = 0
-    i = 0
-    while (list_index < 7) and (i != len(input_data)+1):
-        if op.contains(input_data[i], '-'):
-            while True:
-                list_of_maps[list_index].append(input_data[i])
-                i+=1
-                try: 
-                    if op.contains(input_data[i], '-'):
-                        list_index+=1
-                        i-=1
-                        break
-                except IndexError:
-                    break
-        i+=1
+    for line in input_data:
+        if 'map:' in line:
+            if current_map:
+                list_of_maps.append(current_map)
+                current_map = []
+        else:
+            current_map.append(line)
+    
+    if current_map: 
+        list_of_maps.append(current_map)
+
     return list_of_maps
 
 with open("input.txt") as f:
