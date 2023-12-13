@@ -17,7 +17,9 @@ def get_hand_type(hand):
     for char in hand:
         chars[char] += 1
 
+    print(chars)
     values = list(chars.values())
+    print(f"Values: {values}")
     if 5 in values:
         hand_type = HandType.FIVE_OF_A_KIND
     elif 4 in values:
@@ -74,7 +76,7 @@ with open("input.txt") as f:
     data = [item.strip("\n") for item in f.readlines()]
 
 POWER_DICT = {
-     'A':13,    'K':12,    'Q':11,    'J':10,    'T':9,    '9':8,    '8':7,    '7':6,    '6':5,    '5':4,    '4':3,    '3':2,    '2':1
+     'A':13,    'K':12,    'Q':11,    'J':10,    'T':9,    '9':8,    '8':7,    '7':6,    '6':5,    '5':4,    '4':3,    '3':2,    '2':1, 'J':0
     }
 
 deck_info = []
