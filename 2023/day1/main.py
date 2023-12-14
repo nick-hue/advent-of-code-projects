@@ -3,8 +3,6 @@ import operator as op
 with open("input.txt", "r") as f:
     data = [item.strip("\n") for item in f.readlines()]
 
-print(data)
-
 numbers_dic = {
     'one':1,
     'two':2,
@@ -27,7 +25,6 @@ for line in data:
             index = change_string.index(key)
             change_string = change_string[:index] + key[0] + str(numbers_dic[key]) + change_string[index:]
             print(change_string)
-            #change_string = change_string.replace(key, str(numbers_dic[key]))
 
     print(f"Change : {change_string}")
     first = None
