@@ -52,6 +52,7 @@ else
 fi
 
 # Create part1.py and part2.py with the provided template
+touch "$dir_name/input_small.txt"
 echo "$python_template" > "$dir_name/part1.py"
 echo "$python_template" > "$dir_name/part2.py"
 echo "Files 'part1.py' and 'part2.py' created in '$dir_name'."
