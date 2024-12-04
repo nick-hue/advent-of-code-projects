@@ -8,7 +8,7 @@ fi
 
 # Set variables
 day="$1"
-dir_name="day$day"
+dir_name="2024/day$day"
 url="https://adventofcode.com/2024/day/$day/input"
 cookie_file="$HOME/.aoc_session"
 python_template='class App():
