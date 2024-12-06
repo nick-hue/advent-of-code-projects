@@ -2,7 +2,6 @@ class App():
     def read_from_file(self, filename="input.txt"):
         with open(filename, "r") as f:
             data = [line.strip() for line in f.readlines()]
-        
         return data
 
 
