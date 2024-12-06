@@ -13,14 +13,12 @@ class App():
     def read_from_file(self, filename="input.txt"):
         with open(filename, "r") as f:
             data = [line.strip() for line in f.readlines()]
-        
         return data
 
-
     def solve(self):
-        input_data = self.read_from_file()
+        input_data = self.read_from_file("input_small.txt")
+        #input_data = self.read_from_file("input.txt")
         print(f"{input_data=}")       
-
 
 if __name__ == "__main__":
     App().solve()
@@ -44,7 +42,8 @@ if (-not (Test-Path -Path $cookieFile)) {
 # Fetch the input file
 Write-Host "Fetching input file from Advent of Code..."
 $sessionCookie = Get-Content $cookieFile -Raw
-$response = Invoke-WebRequest -Uri $url -Headers @{ "Cookie" = "session=$sessionCookie" } -OutFile "$dirName\input.txt" -ErrorAction SilentlyContinue
+Invoke-WebRequest -Uri $url -Headers @{ "Cookie" = "session=$sessionCookie" } -OutFile "$dirName\input.txt" -ErrorAction SilentlyContinue
+#$response = Invoke-WebRequest -Uri $url -Headers @{ "Cookie" = "session=$sessionCookie" } -OutFile "$dirName\input.txt" -ErrorAction SilentlyContinue
 
 # Check if the fetch was successful
 if ($? -and (Test-Path "$dirName\input.txt") -and ((Get-Item "$dirName\input.txt").Length -gt 0)) {
