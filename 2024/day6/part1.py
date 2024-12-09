@@ -144,6 +144,7 @@ class App():
         ]
 
         self.guard_row, self.guard_col = self.get_starting_guard_pos()
+        print(self.guard_row, self.guard_col)
         step_counter = 0
 
         while self.is_guard_inbounds():
