@@ -10,7 +10,6 @@ class App():
         self.guard_row, self.guard_col = 0, 0
         self.guard_symbol = "^"
         self.guard_direction = "up"
-        self.guard_inbounds = True
         self.guard_symbol_dict = {
             'up' : '^',
             'right' : '>',
@@ -87,8 +86,7 @@ class App():
                     pass
         except IndexError:
             # print("Guard left the map")
-            self.guard_inbounds = False
-            
+            pass            
 
         return obstacle_seen
 
@@ -144,7 +142,7 @@ class App():
         iter = 0
         while True:
             # if iter is bigger than dimension space break
-            if iter > 130*130:
+            if iter > 260*260:
                 return True
             # self.draw_map(map)
 
