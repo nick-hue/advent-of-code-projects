@@ -38,8 +38,8 @@ class App():
 
 
     def solve(self):
-        # self.read_from_file("input_small.txt")
-        self.read_from_file()
+        self.read_from_file("input_small.txt")
+        # self.read_from_file()
         print(f"{self.input_data=}")       
 
         total = 0
@@ -50,7 +50,6 @@ class App():
             result = int(result)
 
             if self.is_equation_true(result, numbers):
-
                 total += int(result)  
 
 
