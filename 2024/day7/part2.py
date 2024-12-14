@@ -16,11 +16,9 @@ class App():
         return [i for i, ltr in enumerate(s) if ltr == ch]
 
     def remake_numbers_and_combs(self, numbers, comb):
-        if "|" not in comb:
+        if "|" not in list(comb):
             return numbers, comb
-        
-        print(f"Current nums and combs {numbers=} - {comb=}")
-        
+               
         # indeces where the | operator is shown
         ii = self.find(comb, "|")
         print(ii)
@@ -28,43 +26,54 @@ class App():
         # new_numbers = []
         new_numbers = list(deepcopy(numbers))
         new_comb = list(deepcopy(comb))
+        # new_comb = [] 
 
-        index = 0
-        while "|" in new_comb:
-            print(f"{new_numbers=}")
-            print(f"{new_comb=}")
+        desired_length = len(numbers) - len(ii)
+        print(f"{desired_length=}")
+        print("Starting while...")
+        
+        current_length = 0 
+        index = 0 
+
+        while current_length != desired_length:
+            print(f"{new_numbers=} - {new_comb=}")
+            print(f"{index=}")
             if index in ii:
                 new_numbers[index] = str(new_numbers[index]) + str(new_numbers[index+1])
                 del new_numbers[index+1]
-                del new_comb[index] 
-            else:
-                index += 1
-
-
-        print(f"Changed nums and combs {new_numbers=} - {new_comb=}\n")
+                del new_comb[index]
+                current_length+=1
+                continue
+            current_length+=1
+            index+=1
 
         return new_numbers, new_comb
 
 
-    def is_equation_true(self, result, numbers):
-        combinations_amount = len(numbers)-1
+    def is_equation_true(self, result, nums):
+        combinations_amount = len(nums)-1
         possible_combinations = list(product(self.symbols, repeat=combinations_amount))
 
-        print(f"For {len(numbers)} numbers there are : {possible_combinations}")
+        print(f"For {len(nums)} numbers there are : {possible_combinations}")
 
-        for comb in possible_combinations:
-            new_numbers, new_comb = self.remake_numbers_and_combs(numbers=numbers, comb=comb)
+        for i, com in enumerate(possible_combinations):
+            print(f"Before processing: {nums=}, {com=}")
+            new_numbers, new_comb = self.remake_numbers_and_combs(nums, com)
+            print(f"After processing: {new_numbers=}, {new_comb=}")
             
             check_result = int(new_numbers[0])            
-            for num, op in zip(new_numbers[1:], new_comb):
+            for i, (num, op) in enumerate(zip(new_numbers[1:], new_comb)):
                 # print(f"{op=}")
                 if op == "*":
                     check_result *= int(num)
                 elif op == "+":
                     check_result += int(num)
+                elif len(new_comb) == 1 and op == "|":
+                    check_result = int(new_numbers[i]+new_numbers[i+1])
                 else:
                     print("problem")
                     break
+            print()
 
 
             if check_result == result:
@@ -80,7 +89,8 @@ class App():
         print(f"{self.input_data=}")       
 
         total = 0
-        for line in self.input_data[:3]:
+        for line in self.input_data:
+        # for line in self.input_data:
             # print(f"{line}")
             result, amounts = line.split(": ")
             numbers = amounts.split(" ")
