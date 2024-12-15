@@ -38,7 +38,7 @@ class App():
 
         print(f"{locations_dic=}")
 
-        # antinode_locations = []
+        antinode_locations = []
         total = 0
         for key, value in locations_dic.items():
             combos = list(combinations(value, r=2))
@@ -62,18 +62,22 @@ class App():
 
                 if self.is_node_inbounds(antinode_x_1, antinode_y_1):
                     print(f"Putting at : {antinode_x_1},{antinode_y_1}")
-                    if self.input_data[antinode_x_1][antinode_y_1] not in distinct:
-                        self.input_data[antinode_x_1][antinode_y_1] = "#"
-                        total += 1 
+                    # if self.input_data[antinode_x_1][antinode_y_1] not in distinct:
+                    self.input_data[antinode_x_1][antinode_y_1] = "#"
+                    antinode_locations.append((antinode_x_1, antinode_y_1))
+                    # total += 1 
                 # else:
                 #     print(f"{antinode_x_1}-{antinode_y_1} not in bounds")
                 if self.is_node_inbounds(antinode_x_2, antinode_y_2):
                     print(f"Putting at : {antinode_x_2},{antinode_y_2}")
-                    if self.input_data[antinode_x_2][antinode_y_2] not in distinct:
-                        self.input_data[antinode_x_2][antinode_y_2] = "#"
-                        total += 1
+                    # if self.input_data[antinode_x_2][antinode_y_2] not in distinct:
+                    self.input_data[antinode_x_2][antinode_y_2] = "#"
+                    antinode_locations.append((antinode_x_2, antinode_y_2))
+                    # total += 1
                 # else:
                 #     print(f"{antinode_x_2}-{antinode_y_2} not in bounds")
+        print(f"{antinode_locations=}")
+        print(f"{len(set(antinode_locations))=}")
 
 
                 #  check antinode location is inbounds 
