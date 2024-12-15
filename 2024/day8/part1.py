@@ -13,8 +13,8 @@ class App():
         return 0 <= x < len(self.input_data[0]) and 0 <= y < len(self.input_data)
 
     def solve(self):
-        self.read_from_file("input_small.txt")
-        # self.read_from_file()
+        # self.read_from_file("input_small.txt")
+        self.read_from_file()
         # print(f"{self.input_data=}")       
 
         distinct = set([num for line in self.input_data for num in line if num != "."])
@@ -50,31 +50,40 @@ class App():
                 row_dist, col_dist = first[0] - second[0], first[1] - second[1]
                 print(f"{row_dist=}, {col_dist=} for {com}")
 
-                if col_dist < 0:
-                    antinode_x_1 = first[0] - abs(row_dist)
-                    antinode_x_2 = second[0] + abs(row_dist)
-                else:
-                    antinode_x_1 = first[0] + abs(row_dist)
-                    antinode_x_2 = second[0] - abs(row_dist)
+                antinode_x_1 = first[0] - abs(row_dist)
+                antinode_x_2 = second[0] + abs(row_dist)
                 
-                antinode_y_1 = first[1] - abs(col_dist)
-                antinode_y_2 = second[1] + abs(col_dist)
-            
+                if col_dist < 0 :
+                    antinode_y_1 = first[1] - abs(col_dist)
+                    antinode_y_2 = second[1] + abs(col_dist)
+                else:
+                    antinode_y_1 = first[1] + abs(col_dist)
+                    antinode_y_2 = second[1] - abs(col_dist)
+
                 if self.is_node_inbounds(antinode_x_1, antinode_y_1):
-                    self.input_data[antinode_x_1][antinode_y_1] = "#"
-                    total += 1 
+                    print(f"Putting at : {antinode_x_1},{antinode_y_1}")
+                    if self.input_data[antinode_x_1][antinode_y_1] not in distinct:
+                        self.input_data[antinode_x_1][antinode_y_1] = "#"
+                        total += 1 
+                # else:
+                #     print(f"{antinode_x_1}-{antinode_y_1} not in bounds")
                 if self.is_node_inbounds(antinode_x_2, antinode_y_2):
-                    self.input_data[antinode_x_2][antinode_y_2] = "#"
-                    total += 1
+                    print(f"Putting at : {antinode_x_2},{antinode_y_2}")
+                    if self.input_data[antinode_x_2][antinode_y_2] not in distinct:
+                        self.input_data[antinode_x_2][antinode_y_2] = "#"
+                        total += 1
+                # else:
+                #     print(f"{antinode_x_2}-{antinode_y_2} not in bounds")
 
 
                 #  check antinode location is inbounds 
                 # chec knot overlapping
         print("After")
+        print("     "+" ".join([str(num) for num in list(range(len(self.input_data[0])))]))
         for i, line in enumerate(self.input_data):
                 print(f"{i:<4}", end=" ")
                 for j, char in enumerate(line):
-                    print(f"{char}", end="")
+                    print(f"{char}", end=" ")
                 print()
         print(f"{total=}")
 
