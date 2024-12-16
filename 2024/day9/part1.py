@@ -38,7 +38,7 @@ class App():
 
         # Convert to deque for faster popping and appending
         result_string = deque(result_string)
-
+        
         # Identify initial positions of non-`.` characters
         not_free_space_indices = deque(i for i, value in enumerate(result_string) if value != ".")
         
