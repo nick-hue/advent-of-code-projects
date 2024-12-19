@@ -65,5 +65,4 @@ git commit -m "Made day $day"
 git push
 echo "Git commit and push completed successfully."
 
-
 cd "$dir_name/"
