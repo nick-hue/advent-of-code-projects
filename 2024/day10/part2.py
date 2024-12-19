@@ -72,7 +72,9 @@ class App():
         visited.append(point)
         
         # trail path end, valid path !
-        if point.value == 9: return 1
+        if point.value == 9:
+            visited.remove(point)
+            return 1
 
         # trail cant continue, invalid path !
         new_points = self.trail_stop(point, visited)
