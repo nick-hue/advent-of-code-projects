@@ -63,4 +63,11 @@ Set-Content -Path "$dirName\part2.py" -Value $pythonTemplate
 Write-Host "Files 'part1.py' and 'part2.py' created in '$dirName'."
 
 # Navigate to the directory
+
+Write-Host "Adding files to Git, committing, and pushing..."
+& git add "$dirName/input.txt" "$dirName/input_small.txt" "$dirName/part1.py" "$dirName/part2.py"
+& git commit -m "Made day $day"
+& git push
+Write-Host "Git commit and push completed successfully."
+
 Set-Location -Path $dirName
