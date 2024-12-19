@@ -58,4 +58,12 @@ echo "$python_template" > "$dir_name/part1.py"
 echo "$python_template" > "$dir_name/part2.py"
 echo "Files 'part1.py' and 'part2.py' created in '$dir_name'."
 
+# Add Git commands to stage, commit, and push the changes
+echo "Adding files to Git, committing, and pushing..."
+git add "$dir_name/input.txt" "$dir_name/input_small.txt" "$dir_name/part1.py" "$dir_name/part2.py"
+git commit -m "Made day $day"
+git push
+echo "Git commit and push completed successfully."
+
+
 cd "$dir_name/"
