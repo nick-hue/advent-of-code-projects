@@ -17,7 +17,7 @@ class App():
         self.read_from_file()
 
         shift_matrix = deepcopy(self.input_data)
-        blink_times = 75
+        blink_times = 25
         blink = 0 
         while blink < blink_times:
             print(f"{blink=}")
