@@ -11,7 +11,7 @@ class App():
 
     def process_number(self, num):
         if num == 0:
-            return 1
+            return [1]
          
         string_num = str(num)
         if len(string_num) % 2 == 0: # if even number of digits
@@ -21,30 +21,34 @@ class App():
         return [2024*num]
 
     def solve(self):
-        # self.read_from_file("input_small.txt")
-        self.read_from_file()
+        self.read_from_file("input_small.txt")
+        # self.read_from_file()
 
         shift_matrix = deepcopy(self.input_data)
         print(shift_matrix)
-        blink_times = 75
+        blink_times = 6
         blink = 0 
         mapper = {}
 
-        while blink < blink_times:
-            print(f"{blink=}")
-            print(f"{shift_matrix=}")
-            tmp_matrix = []
+        for num_index, num in enumerate(self.input_data):
             
-            for num_index, num in enumerate(shift_matrix):
-                if num not in mapper:
-                    mapper.update({num:(1,[blink])})
-                    tmp_matrix.extend(self.process_number(num))
-                else:
-                    mapper.update(num=(mapper[num][0]+1,mapper[num][1].append(blink)))
-                    tmp_matrix.extend(self.process_number(num))
+            shift_matrix = [num]
+            while blink < blink_times:
+                print(f"{blink=}")
+                print(f"{shift_matrix=}")
+                print(f"{mapper=}")
+                tmp_matrix = [] 
+            
+                for number in shift_matrix:
+                    if number not in mapper:
+                        mapper.update({number:(1,[blink])})
+                    else:
+                        mapper[num]=(mapper[number][0]+1,mapper[number][1].append(blink))
 
-            shift_matrix = tmp_matrix
-            blink += 1
+                tmp_matrix.extend(self.process_number(number))
+
+                blink += 1
+                shift_matrix = tmp_matrix
 
         print(f"{mapper}")
 
