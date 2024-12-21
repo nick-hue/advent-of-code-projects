@@ -1,0 +1,22 @@
+if [ -z "$1" ]; then
+  echo "Usage: make_day <number>"
+  exit 1
+fi
+
+# Set variables
+day="$1"
+dir_name="2024/day$day"
+url="https://adventofcode.com/2024/day/$day/input"
+cookie_file="$HOME/.aoc_session"
+
+# Fetch the input file
+echo "Fetching input file from Advent of Code..."
+curl -s -H "Cookie: session=$(cat $cookie_file)" "$url" -o "$dir_name/input.txt"
+
+# Check if the fetch was successful
+if [ $? -eq 0 ] && [ -s "$dir_name/input.txt" ]; then
+  echo "Input file saved to '$dir_name/input.txt'."
+else
+  echo "Failed to fetch the input file. Please check your session cookie and the day number."
+  rm -f "$dir_name/input.txt"  # Remove the empty input file
+fi
