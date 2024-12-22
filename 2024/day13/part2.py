@@ -82,7 +82,7 @@ class App():
             current_y += behavior_y
             cost += behavior_cost
 
-            if current_x == prize
+            # if current_x == prize
 
             tries += 1 
 
