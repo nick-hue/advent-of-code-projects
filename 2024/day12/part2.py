@@ -26,6 +26,17 @@ class App():
     def check_point_inbounds(self, x,y) -> bool:
         return 0 <= x < len(self.input_data) and 0 <= y < len(self.input_data[0])
 
+    def has_big_diff(self, xi, xj, rest) -> bool:
+        big_diff = False
+        for (i,j) in rest:
+            diffx = abs(xi-i)
+            diffy = abs(xj-j)
+            if diffx < 2 or diffy < 2:
+                big_diff = True
+                break
+
+        return big_diff
+
     def get_perimeters(self, points, letter):
 
         perimeters = []
@@ -41,11 +52,20 @@ class App():
 
         perimeters = self.get_perimeters(points, letter)
         print(perimeters)
-        return 0
 
-       
-
+        sides = 0
+        checked = []
+        for index, (xi,xj) in enumerate(perimeters):
+            if not self.has_big_diff(xi,xj, perimeters[index:]) and (xi,xj) not in checked:
+                sides += 1
+                # print(xi,xj)
+                checked.append((xi,xj))
+                print(checked)
         
+        print(sides)
+
+
+        return 0        
 
     def make_region(self, i, j, letter) -> Region:
         
