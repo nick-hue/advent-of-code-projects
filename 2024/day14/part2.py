@@ -191,10 +191,8 @@ class App():
         import time 
 
         seconds = 0
-        while seconds < 1000:
+        while seconds < 2000:
             for robot in self.robots:
-            # for robot in [self.robots[-2]]:
-                # print(robot)
                 self.move_robot(robot)
             print()
             seconds += 1
