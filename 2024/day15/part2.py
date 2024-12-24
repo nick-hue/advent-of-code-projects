@@ -33,8 +33,9 @@ class App():
             '>' : (0,1),
             '<' : (0,-1)
         }
-        self.vertical_dirs = [(0,1), (0,-1)]
+        self.vertical_dirs = [(-1,0), (1,0)]
         self.horizontal_dirs = [(0,1), (0,-1)]
+        self.box_chars = ['[',']']
 
 
     def read_from_file(self, filename="input.txt"):
@@ -62,7 +63,7 @@ class App():
         mapp[box.pos.right.x][box.pos.right.y] = box.right_char
 
         if box.last_pos.left.x:
-            if direction in self.vertical_dirs: # coming from left >
+            if direction in self.horizontal_dirs: # coming from left >
                 return
             else:
                 mapp[box.last_pos.left.x][box.last_pos.left.y] = "."
@@ -82,37 +83,48 @@ class App():
         '''
         returns a list of indeces where the boxes that should be moved are in the big boxes list
         '''
-        current_x = new_point_x
-        current_y = new_point_y
-        current_char = mapp[current_x][current_y]
 
-        boxes: list[Point] = []
-        while current_char == '[' or current_char == ']':
+        current_char = mapp[new_point_x][new_point_y]
+        
+        if current_char == "[":
+            check_pos = [(new_point_x, new_point_y), (new_point_x, new_point_y+1)]
+        elif current_char == "]":
+            check_pos = [(new_point_x, new_point_y-1), (new_point_x, new_point_y)]
+        else:
+            check_pos = None
+            print("error !!!")
+        print(f"{check_pos=}")
 
-            if current_char == '[':
-                boxes.append(BoxPoint(left=Point(current_x, current_y), right=Point(current_x,current_y+1)))
-            else:
-                boxes.append(BoxPoint(left=Point(current_x, current_y-1), right=Point(current_x,current_y)))
-            
-            # current_x += direction[0]
-            # current_y += direction[1]
-            
+        boxes: list[BoxPoint] = []
 
-            if direction in self.vertical_dirs: # if we are coming from a vertical direction -> normal increment
-                print('from the top or bottom')
-                current_x += direction[0]
-                current_y += direction[1]
-            else:   # if we are coming from the side we want double direction to leave the object
-                print('from the side')
-                current_x += 2 * direction[0]
-                current_y += 2 * direction[1]
+        while mapp[check_pos[0][0]][check_pos[0][1]] in self.box_chars or mapp[check_pos[1][0]][check_pos[1][1]] in self.box_chars:
+            tmp_pos = []
+            for check_x, check_y in check_pos:
+                print(f"{check_x},{check_y}")
+                if mapp[check_x][check_y] == '[':
+                    boxes.append(BoxPoint(left=Point(check_x, check_y), right=Point(check_x,check_y+1)))
+                else:
+                    boxes.append(BoxPoint(left=Point(check_x, check_y-1), right=Point(check_x, check_y)))
             
-            current_char = mapp[current_x][current_y]
+                if direction in self.vertical_dirs: # if we are coming from a vertical direction -> normal increment
+                    print('from the top or bottom')
+                    updated_x = check_x + direction[0]
+                    updated_y = check_y + direction[1]
+                else:   # if we are coming from the side we want double direction to leave the object
+                    print('from the side')
+                    updated_x = check_x + direction[0]
+                    updated_y = check_y + direction[1]
+
+                tmp_pos.append((updated_x, updated_y))
+                
+            check_pos = tmp_pos
 
         # if the boxes are next to a wall dont move them 
-        if current_char == "#":
+        if  check_pos[0] == "#" or check_pos[1] == "#":
+            print("cant move boxes")
             return None
         
+        print(f"{boxes=}")
         box_indeces = list(set([i for box in boxes for i, other_box in enumerate(self.boxes) if other_box.pos == box]))
         
         return box_indeces
@@ -145,8 +157,6 @@ class App():
         box.pos.right.x += direction[0]
         box.pos.right.y += direction[1]
         self.update_map_box(self.resized_map, box, direction)
-
-
 
 
     def handle_box(self, new_point_x, new_point_y, direction):
