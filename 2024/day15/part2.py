@@ -79,11 +79,29 @@ class App():
         print()
 
 
+    def check_boxes(self, mapp, boxes:list[BoxPoint], direction:tuple[int,int]) -> False:
+        
+        for box in boxes:
+            check_left_x, check_left_y = box.left.x + direction[0], box.left.y + direction[1]
+            check_right_x, check_right_y = box.right.x + direction[0], box.right.y + direction[1]
+            if mapp[check_left_x][check_left_y] == "#" or mapp[check_right_x][check_right_y] == "#":
+                return True
+
+        return False
+
+    def are_positions_inbound(self, mapp, check_pos) -> bool:
+        for x,y in check_pos:
+            if x < 0 or x >= len(mapp) or y < 0 or y >= len(mapp[0]):
+                return False
+        return True
+            
+
+
     def get_boxes_indeces(self, mapp, new_point_x, new_point_y, direction) -> list[int]:
         '''
         returns a list of indeces where the boxes that should be moved are in the big boxes list
         '''
-
+        print("new_points" ,new_point_x, new_point_y)
         current_char = mapp[new_point_x][new_point_y]
         
         if current_char == "[":
@@ -93,11 +111,12 @@ class App():
         else:
             check_pos = None
             print("error !!!")
-        print(f"{check_pos=}")
 
         boxes: list[BoxPoint] = []
 
         while mapp[check_pos[0][0]][check_pos[0][1]] in self.box_chars or mapp[check_pos[1][0]][check_pos[1][1]] in self.box_chars:
+
+            print(f"{check_pos=}")
             tmp_pos = []
             for check_x, check_y in check_pos:
                 print(f"{check_x},{check_y}")
@@ -106,25 +125,30 @@ class App():
                 else:
                     boxes.append(BoxPoint(left=Point(check_x, check_y-1), right=Point(check_x, check_y)))
             
+                # updated_x = check_x + direction[0]
+                # updated_y = check_y + direction[1]
                 if direction in self.vertical_dirs: # if we are coming from a vertical direction -> normal increment
                     print('from the top or bottom')
                     updated_x = check_x + direction[0]
                     updated_y = check_y + direction[1]
                 else:   # if we are coming from the side we want double direction to leave the object
                     print('from the side')
-                    updated_x = check_x + direction[0]
-                    updated_y = check_y + direction[1]
+                    updated_x = check_x + 2 * direction[0]
+                    updated_y = check_y + 2 * direction[1]
 
                 tmp_pos.append((updated_x, updated_y))
-                
+            
             check_pos = tmp_pos
+            print(check_pos)
+
+            if self.are_positions_inbound(mapp, check_pos):
+                break
 
         # if the boxes are next to a wall dont move them 
-        if  check_pos[0] == "#" or check_pos[1] == "#":
+        if self.check_boxes(self.resized_map, boxes,direction=direction):
             print("cant move boxes")
             return None
         
-        print(f"{boxes=}")
         box_indeces = list(set([i for box in boxes for i, other_box in enumerate(self.boxes) if other_box.pos == box]))
         
         return box_indeces
@@ -170,7 +194,8 @@ class App():
             return
 
         # move boxes 
-        for i in reversed(boxes_ind):
+        # for i in reversed(boxes_ind):
+        for i in boxes_ind:
             # get current box
             box = self.boxes[i]
             # move current box
