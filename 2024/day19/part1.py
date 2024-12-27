@@ -13,30 +13,30 @@ class App():
         self.available_patterns = [char.strip() for char in data[:split_index][0].split(",")]
         self.designs = data[split_index+1:]
         
-    # def check_design(self, des: str) -> int:
-    #     result_check = '-'*len(des)
-    #     # print(f"{result_check=} - for {des=}") 
-    #     check_times = 0
-    #     while check_times < len(self.available_patterns):    
+    def check_design(self, des: str) -> int:
+        result_check = '-'*len(des)
+        # print(f"{result_check=} - for {des=}") 
+        check_times = 0
+        while check_times < len(self.available_patterns):    
             
-    #         patterns = self.available_patterns[check_times:] + self.available_patterns[:check_times]
-    #         # print(f"Design for check times {check_times} : {patterns=} :\n\t\t {self.available_patterns=}")
-    #         tmp_design = des
-    #         for pattern in patterns:
-    #             # print(f"Checking {pattern=}")
-    #             # print(pattern in tmp_design)
-    #             if pattern not in tmp_design:
-    #                 continue
+            patterns = self.available_patterns[check_times:] + self.available_patterns[:check_times]
+            # print(f"Design for check times {check_times} : {patterns=} :\n\t\t {self.available_patterns=}")
+            tmp_design = des
+            for pattern in patterns:
+                # print(f"Checking {pattern=}")
+                # print(pattern in tmp_design)
+                if pattern not in tmp_design:
+                    continue
                 
-    #             tmp_design = tmp_design.replace(pattern, "-"*len(pattern))
-    #             # print(f"{tmp_design=}")
-    #             if tmp_design == result_check:
-    #                 # print("found possible...")
-    #                 return 1
-    #         # print()
-    #         check_times += 1
+                tmp_design = tmp_design.replace(pattern, "-"*len(pattern))
+                # print(f"{tmp_design=}")
+                if tmp_design == result_check:
+                    # print("found possible...")
+                    return 1
+            # print()
+            check_times += 1
 
-    #     return 0
+        return 0
             
 
     def composable(self, string, words):
@@ -58,6 +58,23 @@ class App():
         return self.memo[string]
     
 
+    def check_other(self, des):
+        if "r" not in des:
+            return 1
+
+        for pattern in self.available_patterns:
+            ...
+
+        return 0
+
+
+    def filter_patterns(self):
+        result = set([string for string in self.available_patterns if len(string) == 1])
+        print(result)
+        for pattern in self.available_patterns:
+            ... 
+
+
 
     def solve(self):
         # self.read_from_file("input_small.txt")
@@ -66,12 +83,21 @@ class App():
         print(f"{self.available_patterns=}")
         print(f"{self.designs=}")
 
+        # filtered_patterns = self.filter_patterns()
+        # print(filtered_patterns)
+
+        result = set([string for string in self.available_patterns if len(string) == 1])
+        print(result)
+
         total = 0 
         for des in self.designs:
             # total += self.check_design(des)
-            if self.composable(des, self.available_patterns):
-                total += 1
+            # if self.composable(des, self.available_patterns):
+            #     total += 1
+            total += self.check_other(des=des)
+            ...
     
+
         print(f"Total designs possible : {total}")
 
 if __name__ == "__main__":
