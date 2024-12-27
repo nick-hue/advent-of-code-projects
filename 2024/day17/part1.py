@@ -97,16 +97,6 @@ class App():
             6 : self.bdv_instruction,
             7 : self.cdv_instruction
         }
-        # self.opcode_to_instr = {
-        #     0 : self._adv,
-        #     1 : self._bxl,
-        #     2 : self._bst,
-        #     3 : self._jnz,
-        #     4 : self._bxc,
-        #     5 : self._out,
-        #     6 : self._bdv,
-        #     7 : self._cdv
-        # }
 
 
     def solve(self):
@@ -132,10 +122,7 @@ class App():
             self.operand = self.program[self.instruction_pointer+1]
 
             instruction: Instruction = self.opcode_to_instr[self.opcode]
-            instruction.func()           
-            # func: Callable = self.opcode_to_instr[self.opcode]
-            # func()
-
+            instruction.func()
 
             if self.opcode == 3 and self.reg_a.value != 0:
                 continue
