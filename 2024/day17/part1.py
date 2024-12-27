@@ -37,11 +37,11 @@ class App():
 
 
     def get_combo_value(self, inp):
-        if 4:
+        if inp == 4:
             return self.reg_a.value
-        elif 5:
+        elif inp == 5:
             return self.reg_b.value
-        elif 6:
+        elif inp == 6:
             return self.reg_c.value
         else:
             return inp
@@ -97,11 +97,21 @@ class App():
             6 : self.bdv_instruction,
             7 : self.cdv_instruction
         }
+        # self.opcode_to_instr = {
+        #     0 : self._adv,
+        #     1 : self._bxl,
+        #     2 : self._bst,
+        #     3 : self._jnz,
+        #     4 : self._bxc,
+        #     5 : self._out,
+        #     6 : self._bdv,
+        #     7 : self._cdv
+        # }
 
 
     def solve(self):
-        self.read_from_file("input_small.txt")
-        #self.read_from_file()
+        # self.read_from_file("input_small.txt")
+        self.read_from_file()
         print(f"{self.input_data=}")       
 
         self.init_registers()
@@ -123,6 +133,9 @@ class App():
 
             instruction: Instruction = self.opcode_to_instr[self.opcode]
             instruction.func()           
+            # func: Callable = self.opcode_to_instr[self.opcode]
+            # func()
+
 
             if self.opcode == 3 and self.reg_a.value != 0:
                 continue
