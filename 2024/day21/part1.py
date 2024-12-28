@@ -55,7 +55,7 @@ class App():
         returns a string that contains the motions need to be executed by the robot 
         to input the code
         '''
-        final_strings = []
+        # final_strings = []
         # for i in range(10000):
                 
         final_string = ""   
@@ -92,11 +92,10 @@ class App():
             current_j = dest_j
 
         # final_strings.append(final_string)
-
         # print(final_strings)
+        # return min(final_strings, key=len)
 
         return final_string
-        # return min(final_strings, key=len)
         
     def solve(self):
         self.read_from_file("input_small.txt")
@@ -107,7 +106,7 @@ class App():
         print()
         for line in self.robot_keypad:
             print(" ".join(line))
-
+        self.total = 0
         total = 0 
         for code in self.input_data:
             # print(f"{code=}")
@@ -122,6 +121,7 @@ class App():
             total += int(code[:-1]) * len(cold_string)
 
         print(f"total is : {total}")
+
 # 379A: <v<A>>^AvA^A <vA <AA>>^AAvA<^A>AAvA^A<vA>^AA<A>A<v<A>A>^AAAvA<^A>A
 # 379A: v<<A^>>AvA^A v<<A ^>>AAv<A<A^>>AA<Av>AA^Av<A^>AA<A>Av<A<A^>>AAA<Av>A^A : 68
 if __name__ == "__main__":
