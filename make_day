@@ -7,10 +7,12 @@ if [ -z "$1" ]; then
 fi
 
 # Set variables
-day="$1"
-dir_name="2024/day$day"
-url="https://adventofcode.com/2024/day/$day/input"
+year="$1"
+day="$2"
+dir_name="$year/day$day"
+url="https://adventofcode.com/$year/day/$day/input"
 cookie_file="$HOME/.aoc_session"
+
 python_template='class App():
     def __init__(self):
         self.input_data = []
