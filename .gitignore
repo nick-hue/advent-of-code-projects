@@ -1,4 +1,4 @@
 cookie_windows.txt
 2024/day*/input.txt
 2025/day*/input.txt
-.vscode/
+.vscode/**/.aoc_session
