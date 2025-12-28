@@ -18,22 +18,6 @@ std::vector<std::string> readInput(std::string filename){
     return result;
 }
 
-std::vector<int> simulateClicking(int dir, int number, int current_point){
-    int result_point = (current_point + (dir * number) + 100) % 100;
-    int counter = 0;
-
-    for (int i = 1; i <= number; i++){
-        int point = current_point + i * dir;
-        if (point % 100 == 0){
-            counter++;
-            printf("point : %d\n", point);
-        }
-            
-    }
-    std::vector<int> res = {counter, result_point};
-    return res;
-}
-
 int main(){
     // std::vector<std::string> inputData = readInput("input_test.txt");
     std::vector<std::string> inputData = readInput("input.txt");
@@ -54,9 +38,14 @@ int main(){
         int number = std::stoi(number_str);
         // printf("number : %d", number);
 
-        std::vector<int> res = simulateClicking(dir, number, point);
-        counter += res[0];
-        point = res[1];
+        point += (dir * number) + 100;
+        point = point % 100;
+
+        printf("\nCurrent point : %d", point);
+        if (point == 0)
+            counter++;
+
+        printf("\n");        
     }
     printf("Counter : %d\n", counter);
 
