@@ -8,6 +8,8 @@ int main() {
         printf("%s\n", line.c_str());
     }
 
+    
+
     return 0;
 }
 
