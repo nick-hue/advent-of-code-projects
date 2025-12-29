@@ -74,23 +74,34 @@ int getSizeSplitter(std::string num_str){
     return counter;
 }
 
-std::vector<std::string> GetParts(std::string num_str, int splitter){
-    std::vector<std::string> results;
-
-    for (size_t i = 0; i < num_str.size(); i += splitter)
-        results.push_back(num_str.substr(i, splitter));
-
-    return results;
-}
-
-bool AreTheSame(std::vector<std::string> myvector){
-    return std::adjacent_find( myvector.begin(), myvector.end(), std::not_equal_to<>() ) == myvector.end();
-}
-
 bool IsInvalid(std::string num_string){
-    for (int i = 0; i < num_string.size() / 2; i++){
-        std::vector<std::string> parts = GetParts(num_string, i);
-        if (AreTheSame(parts)) return true;
+    
+    int counter = 1;
+    bool running = true;
+
+    printf("trying for number : %s\n", num_string.c_str());
+    while (running){
+        printf("counter == %d\n", counter);
+        if (counter > num_string.size() / 2 ) running = false;
+
+        if ((num_string.size() % counter) != 0){
+            counter++;
+            continue;
+        }
+
+        bool isInvalid = true;
+        std::string piece = num_string.substr(0, counter);
+        for (int start = counter; start <= num_string.size(); start += counter){
+            std::string other_piece = num_string.substr(start, counter);
+            printf("piece %s - other piece %s\n", piece.c_str(), other_piece.c_str());
+            if (piece != other_piece) {
+                running = false;
+                isInvalid = false;
+                break;
+            }
+        }
+        if (isInvalid) return true;
+        counter++;
     }
 
     return false;
@@ -128,10 +139,10 @@ int main(){
 
             if (IsInvalid(num_str)) {
                 invalidIds.push_back(num);
-                printf("Invalid : %lld", num);
+                printf("Invalid : %lld\n", num);
             }
         }
-
+        // break;
         // printf("\n");
     }
     printf("\nSum is : %lld\n", std::accumulate(invalidIds.begin(), invalidIds.end(), 0LL));    printf("size : %ld\n", ranges.size());
