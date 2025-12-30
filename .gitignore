@@ -1,1 +1,10 @@
 202*/day*/*.txt
+
+part1
+part2
+*.out
+*.exe
+
+# Object files
+*.o
+*.obj
