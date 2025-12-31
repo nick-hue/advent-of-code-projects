@@ -1,42 +1,37 @@
 #include "../../util.hpp"
 
 int main() {
-    auto lines = readInput("input_small.txt");
-    // auto lines = readInput("input.txt");
+    // auto lines = readInput("input_small.txt");
+    auto lines = readInput("input.txt");
 
     int sum = 0;
 
     for (auto& bank : lines){
         printf("bank : %s\n", bank.c_str());
-        // std::vector<std::string> splitUp = splitStringIndecesString(bank, 1);
-        std::vector<int> splitUp = splitStringIndecesInt(bank, 1);
-        std::map<int, int> dataMap = {};
-        for (int i = 0; i < splitUp.size(); i++){
-            dataMap.insert({i, splitUp[i]});
-        }
-        
-        std::vector<int> keys, values;
-        for(std::map<int,int>::iterator it = dataMap.begin(); it != dataMap.end(); ++it) {
-            keys.push_back(it->first);
-            values.push_back(it->second);
-            // std::cout << "Key: " << it->first << " -- Value: " << it->second << std::endl;
-        }
-        
+        std::vector<int> nums = splitStringIndecesInt(bank, 1);
+               
         // get index of max
-        auto index1 = std::distance(values.begin(), std::max_element(values.begin(), values.end()));
+        auto index1 = std::distance(nums.begin(), std::max_element(nums.begin(), nums.end()));
         printf("index1 : %ld\n", index1);
-        printf("before remove\n");
-        for (auto& val : values) { printf("%d ", val); } printf("\n");
+        int num1 = nums[index1];
                 
-        values.at(index1) = 0;
-
-        printf("after remove\n");
-        for (auto& val : values) { printf("%d ", val); } printf("\n");
-        auto index2 = std::distance(values.begin(), std::max_element(values.begin(), values.end()));
+        /* 
+            get the second max num in the list:
+                > if its NOT at the end from the point of the first max till the end
+                > if its at the end from the start of the list up to the index of the first max num
+        */
+        std::ptrdiff_t index2;
+        if (index1 == nums.size() - 1) {
+            index2 = std::distance(nums.begin(), std::max_element(nums.begin(), nums.end() - 1));
+        } else {
+            index2 = std::distance(nums.begin(), std::max_element(nums.begin() + index1 + 1, nums.end()));
+        }
+        int num2 = nums[index2];
         printf("index2 : %ld\n", index2);
         
-        int final_num = (index1 < index2) ? std::stoi(std::to_string(dataMap[index1])+std::to_string(dataMap[index2])) 
-                                          : std::stoi(std::to_string(dataMap[index2])+std::to_string(dataMap[index1]));
+        int final_num = (index1 < index2) ? std::stoi(std::to_string(num1)+std::to_string(num2)) 
+                                          : std::stoi(std::to_string(num2)+std::to_string(num1));
+
         printf("final num : %d\n\n", final_num);
         sum += final_num;
     }
