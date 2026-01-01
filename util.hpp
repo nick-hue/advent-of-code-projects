@@ -103,3 +103,10 @@ std::vector<int> splitStringIndecesInt(std::string& input, int index)
 int GetIndexByElement(std::vector<int> v, int element){
     return find(v.begin(), v.end(), element) - v.begin();
 }
+
+void remove_extra_whitespaces(const string &input, string &output)
+{
+    output.clear();  // unless you want to add at the end of existing sring...
+    unique_copy (input.begin(), input.end(), back_insert_iterator<string>(output),
+                                     [](char a,char b){ return isspace(a) && isspace(b);});  
+}
