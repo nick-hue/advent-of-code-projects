@@ -63,3 +63,4 @@ git push
 echo "Git commit and push completed successfully."
 
 cd "$dir_name/"
+code part1.cpp
