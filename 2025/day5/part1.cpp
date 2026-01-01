@@ -1,13 +1,93 @@
 
 #include "../../util.hpp"
 
-int main() {
-    auto lines = readInput("input_small.txt");
-    //auto lines = readInput("input.txt");   
 
-    for (auto& line : lines){
-        printf("%s\n", line.c_str());
+
+int main() {
+    // auto lines = readInput("input_small.txt");
+    auto lines = readInput("input.txt");   
+
+    // for (auto& line : lines){
+    //     printf("%s\n", line.c_str());
+    // }
+
+    // split input into 2 vectors 
+    vector<pair<long long, long long>> ranges;
+    vector<long long> ingredients;
+    bool ingredient_input = false;
+    for (auto& line : lines) {
+        if (line.empty()) { ingredient_input = true; continue; }
+        
+        if (!ingredient_input) {
+            vector<string> line_split = splitString(line, '-');
+
+            ranges.emplace_back(std::pair<long long, long long> {stoll(line_split[0]), stoll(line_split[1])});
+        }
+        else ingredients.emplace_back(stoll(line));
     }
+
+    printf("starting ranges\n");
+    for (auto& range : ranges){
+        printf("range: %lld-%lld\n", range.first, range.second);
+    }
+
+    std::vector<pair<long long,long long>> result_ranges;
+    // make range structure from all the range input for better calculations
+    for (auto& range : ranges){
+        // printf("size result : %ld\n", result_ranges.size());
+        if (result_ranges.size() == 0) {
+            printf("new range : %lld-%lld\n", range.first, range.second);
+            result_ranges.emplace_back(range); 
+            // printf("here\n"); 
+            continue;
+        }
+        
+        bool outsideAll = true;
+        for (auto& res_range : result_ranges) {
+            // printf("current state : range: %lld-%lld\n", res_range.first, res_range.second);
+            // outside the current range checking -> go to next range
+            if (range.second < res_range.first || range.first > res_range.second ) { continue; }
+            // inside the current range checking -> break
+            if (range.first > res_range.first && range.second < res_range.second ) {
+                outsideAll = false;
+                break;
+            }
+            // half inside (front) -> change the range front side 
+            if (range.first < res_range.first && range.second < res_range.second ) {
+                outsideAll = false;
+                res_range.first = range.first;
+                continue;
+            }
+            // half inside (back) -> change the range back side 
+            if (range.first > res_range.first && range.second > res_range.second ) {
+                outsideAll = false;
+                res_range.second = range.second;
+                continue;
+            }
+
+        }
+        // if outside all ranges make a new one 
+        if (outsideAll) {
+            printf("new range : %lld-%lld\n", range.first, range.second);
+            result_ranges.emplace_back(range);
+        }
+
+    }
+
+    printf("result ranges\n");
+    for (auto& range : result_ranges){
+        printf("range: %lld-%lld\n", range.first, range.second);
+    }
+
+    int fresh_counter = 0;
+    for (auto& ingre : ingredients){
+        printf("ingre %lld\n", ingre);
+        for (auto& range : ranges){
+            if (ingre >= range.first && ingre <= range.second) { fresh_counter++; break; }
+        }
+    }
+    printf("Fresh counter : %lld\n", fresh_counter);
+
 
     return 0;
 }
