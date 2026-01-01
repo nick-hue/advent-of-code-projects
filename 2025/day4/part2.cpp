@@ -6,8 +6,7 @@ int main() {
     //auto lines = readInput("input.txt");   
 
     for (auto& line : lines){
-        printf("%s
-", line.c_str());
+        printf("%s\n", line.c_str());
     }
 
     return 0;
