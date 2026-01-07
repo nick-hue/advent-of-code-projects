@@ -3,52 +3,79 @@
 
 
 int main() {
-    auto lines = readInput("input_small.txt");
-    //auto lines = readInput("input.txt");   
+    // auto lines = readInput("input_small.txt");
+    auto lines = readInput("input.txt");   
 
-    for (auto& line : lines){
-        printf("%s\n", line.c_str());
-    }
+    // for (auto& line : lines){
+    //     printf("%s\n", line.c_str());
+    // }
 
     vector<vector<int>> nums;
-    vector<char> operations;
+    vector<string> operations;
     bool operations_input = false;
     for (auto& line : lines) {
-        if (line.find('+') != std::string::npos)  { operations_input = true; continue; }    
+        if (line.find('+') < line.length() || line.find('*') < line.length())  { operations_input = true; }    
+
         string trimmed_line;
         remove_extra_whitespaces(line, trimmed_line);
-        printf("->%s\n", line.c_str());
-        printf("->%s\n", trimmed_line.c_str());
+        // printf("normal:%s\n", line.c_str());
+        // printf("trimed:%s\n", trimmed_line.c_str());
 
-        vector<string> str = splitString(trimmed_line, ' ');
-        for (auto& s : str){
-            printf("-> s : %s", s.c_str());
-        }
-        printf("\n");
+        vector<string> split_trimmed = splitString(trimmed_line, ' ');
+        // for (auto& s : split_trimmed){
+        //     printf("-> s : %s ", s.c_str());
+        // }
+        // printf("\n");
 
         if (operations_input) {
-            nums.emplace_back(splitString(line, ' '));
+            operations = split_trimmed;
         } 
         else {
-            // make all the numbers of each row into integer vectors
-            vector<string> nums_str = splitString(line, ' ');
-            vector<int> num_vector;
-            std::transform(nums_str.begin(), nums_str.end(), std::back_inserter(num_vector), [](const std::string& str) { return std::stoi(str); });
-            operations.emplace_back(num_vector);
+            vector<int> num_list;
+            nums.emplace_back(splitStringInt(trimmed_line, ' '));
         }
+    }
+    
+    // for (auto& line : nums){
+    //     for (auto& num : line){
+    //         printf("num %d - ", num);
+    //     }
+    // }
+    // printf("\n");
 
-        for (auto& op : operations){
-            printf("op %c - ", op);
+    printf("size : %ld\n", nums.size());       
+    printf("size line: %ld\n", nums[0].size());       
+    printf("size oper: %ld\n", operations.size());       
+
+    // for (auto& op : operations){
+    //     printf("op %s - ", op.c_str());
+    // }
+    // printf("\n");
+
+    long long totalSum = 0;
+    
+    for (int line = 0; line < nums[0].size(); line++){
+        long long temp_result = 0;
+
+        if (operations[line] == "*"){
+            temp_result = 1;
         }
-
-        
-        for (auto& line : nums){
-            for (auto& num : line){
-                printf("num %d - ", num);
+        for (int num_index = 0; num_index < nums.size(); num_index++){
+            if (operations[line] == "+"){
+                temp_result += nums[num_index][line];
+            } else if (operations[line] == "*") {
+                temp_result *= nums[num_index][line];
             }
         }
+        printf("temp result : %lld\n", temp_result);
+        // if (operations[line] == "*"){
+        //     temp_result = std::accumulate(vars, end(vars), 1.0, std::multiplies<double>());
 
+        // }
+        totalSum += temp_result;
     }
+    printf("total sum: %lld\n", totalSum);
+
 
     return 0;
 }
