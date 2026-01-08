@@ -31,7 +31,6 @@ int main() {
             operations = split_trimmed;
         } 
         else {
-            vector<int> num_list;
             nums.emplace_back(splitStringInt(trimmed_line, ' '));
         }
     }
