@@ -54,8 +54,6 @@ std::vector<std::string> splitString(std::string& input, char delimiter)
     // delimiter
     while (getline(stream, token, delimiter)) {
         // Add the token to the vector of tokens
-        if (token == "") continue;
-        // printf("token -%s-", token.c_str());
         tokens.push_back(token);
     }
 
