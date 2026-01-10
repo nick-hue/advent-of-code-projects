@@ -20,6 +20,43 @@ std::vector<std::string> readInput(std::string filename){
     return result;
 }
 
+std::vector<std::string> splitStringIndecesString(std::string& input, int index)
+{
+
+    // Creating an input string stream from the input string
+    std::istringstream stream(input);
+
+    // Vector to store the tokens
+    std::vector<std::string> tokens;
+
+    
+    // Temporary string to   store each token
+    std::string token;
+
+    for (size_t i = 0; i < input.size(); i+=index){
+        tokens.push_back(input.substr(i, index));
+    }
+
+    // Return the vector of tokens
+    return tokens;
+}
+
+
+std::vector<std::vector<std::string>> readInputMatrix(std::string filename){
+    std::fstream file;
+    file.open(filename.c_str(), std::ios::in);
+
+    std::string curr_string;
+    std::vector<std::vector<std::string>> result;
+
+    while(getline(file, curr_string))
+    {
+        result.emplace_back(splitStringIndecesString(curr_string, 1));
+    }
+
+    return result;
+}
+
 std::string readInputOneLine(std::string filename){
     std::fstream file;
     file.open(filename.c_str(), std::ios::in);
@@ -93,26 +130,6 @@ std::vector<int> splitStringInt(std::string& input, char delimiter)
     return tokens;
 }
 
-std::vector<std::string> splitStringIndecesString(std::string& input, int index)
-{
-
-    // Creating an input string stream from the input string
-    std::istringstream stream(input);
-
-    // Vector to store the tokens
-    std::vector<std::string> tokens;
-
-    
-    // Temporary string to   store each token
-    std::string token;
-
-    for (size_t i = 0; i < input.size(); i+=index){
-        tokens.push_back(input.substr(i, index));
-    }
-
-    // Return the vector of tokens
-    return tokens;
-}
 
 std::vector<int> splitStringIndecesInt(std::string& input, int index)
 {
@@ -143,3 +160,18 @@ void remove_extra_whitespaces(const string &input, string &output)
     unique_copy (input.begin(), input.end(), back_insert_iterator<string>(output),
                                      [](char a,char b){ return isspace(a) && isspace(b);});  
 }
+
+template <typename T>
+// returns the indexes of a string where the given char occurs
+vector<int> findIndexesOfElement(const T& input, char findChar){
+    vector<int> characterLocations;
+    for(int i = 0; i < static_cast<int>(input.size()); i++)
+        if(input[i] == findChar)
+            characterLocations.push_back(i);
+
+    return characterLocations;
+}
+
+string AccuulateStringVector(vector<string> input){
+    return std::accumulate(input.begin(), input.end(), std::string(""));
+}   
