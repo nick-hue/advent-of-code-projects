@@ -37,8 +37,8 @@ std::string readInputOneLine(std::string filename){
     return final_string;
 }
 
-// is token is "" it goes over it
-std::vector<std::string> splitString(std::string& input, char delimiter)
+// Splits given string [input] at every [delimeter] if token is "" it goes over it if [skip_empty] is set
+std::vector<std::string> splitString(std::string& input, char delimiter, bool skip_empty = false)
 {
 
     // Creating an input string stream from the input string
@@ -50,10 +50,10 @@ std::vector<std::string> splitString(std::string& input, char delimiter)
     // Temporary string to store each token
     std::string token;
 
-    // Read tokens from the string stream separated by the
-    // delimiter
+    // Read tokens from the string stream separated by the delimiter
     while (getline(stream, token, delimiter)) {
         // Add the token to the vector of tokens
+        if (token == "" && skip_empty) continue;
         tokens.push_back(token);
     }
 
