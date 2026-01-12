@@ -9,11 +9,16 @@ vector<string> GetCurrentCol(int col_index, vector<vector<string>>& matrix){
     return result;
 }
 
-int main() {
-    auto lines = readInput("input_small.txt");
-    // auto lines = readInput("input.txt");   
+bool AllBlank(vector<string> vec){
+    return std::adjacent_find( vec.begin(), vec.end(), std::not_equal_to<>() ) == vec.end();
+}
 
-    vector<vector<string>> nums; 
+int main() {
+    // auto lines = readInput("input_small.txt");
+    auto lines = readInput("input.txt");   
+
+    // vector<vector<string>> nums; 
+    vector<string> nums; 
     vector<string> operations;
     bool operations_input = false;
     for (auto& line : lines) {
@@ -26,32 +31,41 @@ int main() {
 
         if (operations_input) operations = split_trimmed;
         else {
-            nums.emplace_back(splitString(line, ' '));
-            nums.emplace_back(vector<string> {"-"});
+            // nums.emplace_back(splitString(line, ' '));
+            nums.emplace_back(line);
+            // nums.emplace_back(vector<string> {"-"});
         }
 
     }
 
-    // format nums
-    vector<vector<string>> final_nums;
-    for (auto& line : nums){
-        vector<string> row;
-        int i = 0;
-        for (auto& num : line){
-            printf("[%s] ", num.c_str());
-            if (num == "") continue;
-            if (is_number(line[i+1])) row.emplace_back(num);
-            if (line[i+1].empty()) row;
-            // AB.insert(AB.end(), B.begin(), B.end());
-            i++;
-        }
-        printf("\n");
-    }
-    printf("\n");
 
     printf("size : %ld\n", nums.size());       
     printf("size line: %ld\n", nums[0].size());       
     printf("size oper: %ld\n", operations.size());       
+    // format nums
+
+    vector<vector<int>> final_nums;
+    vector<int> tmp_ints;
+    for (int y = 0; y < nums[0].size(); y++){
+
+        string tmp_string;
+        for (int x = 0; x < nums.size(); x++){
+            tmp_string += nums[x][y];
+            // printf("[%c]", nums[x][y]);
+        }
+        printf("tmp : [%s]", tmp_string.c_str());
+        printf("\n");
+        
+        // if (tmp_string == "   ") {
+        if (tmp_string == "    ") {
+            // printf("empty");
+            final_nums.emplace_back(tmp_ints);
+            tmp_ints = {};
+            continue;
+        }
+        tmp_ints.emplace_back(stoi(tmp_string));
+    }
+    final_nums.emplace_back(tmp_ints);
 
     // printf("Operations :\n");
     // for (auto& op : operations){
@@ -59,37 +73,23 @@ int main() {
     // }
     // printf("\n"); 
 
-    // // long long totalSum = 0;
-    
-    // for (int col = 0; col <= nums.size(); col++){
-    //     vector<string> current_column = GetCurrentCol(col, nums);
-    //     // printf("col index %d\n", col);
-    //     for (auto& c : current_column){
-    //         printf("%s - ", c.c_str());
-    //     }
-    //     printf("\n");
-    // }
-    //     vector<int> column_nums = GetColumnNums(current_column);
-    //     printf("col index %d\n", col);
-    //     for (auto& n : column_nums){
-    //         printf("%d - \n", n);
-    //     }
-    //     printf("\n");
-        
-    // }
+    int op_index = 0;
+    long long totalSum = 0;
+    for (auto& nums : final_nums){
+        string op_char = operations[op_index];
+        long long tmp_result = op_char == "*" ? 1 : 0;
+        for (auto& num : nums){
+            printf("%d %s ", num, op_char.c_str());
+            if (op_char == "*") tmp_result *= num;
+            else if (op_char == "+") tmp_result += num;
+            else printf("ERROR\n");
+        }
+        totalSum += tmp_result;
+        op_index++;
+        printf("\n");
+    }
 
-    // for (int line = 0; line < nums[0].size(); line++){
-    //     long long temp_result = 0;
-    //     if (operations[line] == "*"){
-    //         temp_result = 1;
-    //     }
-
-
-
-    //     totalSum += temp_result;
-    // }
-    // printf("total sum: %lld\n", totalSum);
-
+    printf("final result : %lld\n", totalSum);
 
     return 0;
 }
