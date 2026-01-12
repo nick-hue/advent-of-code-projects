@@ -172,6 +172,17 @@ vector<int> findIndexesOfElement(const T& input, char findChar){
     return characterLocations;
 }
 
+template <typename T>
+set<int> setFindIndexesOfElement(const T& input, char findChar){
+    set<int> characterLocations;
+    for(int i = 0; i < static_cast<int>(input.size()); i++)
+        if(input[i] == findChar)
+            characterLocations.insert(i);
+
+    return characterLocations;
+}
+
+
 string AccuulateStringVector(vector<string> input){
     return std::accumulate(input.begin(), input.end(), std::string(""));
 }   

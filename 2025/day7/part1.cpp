@@ -15,7 +15,7 @@ int main() {
     int splitCount = 0;
     for (auto& line : lines){
         set<int> newBeamIndexes;
-        vector<int> splitterIndeces = findIndexesOfElement(line, '^');
+        set<int> splitterIndeces = setFindIndexesOfElement(line, '^');
     
         if (splitterIndeces.size() > 0){
             printf("Splitters found at line with index [%d]: ", lineIndex);
@@ -25,14 +25,12 @@ int main() {
         printf("Current Beam Indexes - line : %d\n", lineIndex);
         for (auto& ind : beamIndexes){ 
             printf("%d ", ind); 
-
-            // Check if the current beam index hits a splitter
-            int cnt = count(splitterIndeces.begin(), splitterIndeces.end(), ind);
-            if (cnt > 0){
+            if (splitterIndeces.find(ind) != splitterIndeces.end()){
                 newBeamIndexes.insert(ind-1);
                 newBeamIndexes.insert(ind+1);
                 splitCount++;
             }
+
         }
         printf("\n");
         
