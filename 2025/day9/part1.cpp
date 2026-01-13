@@ -33,10 +33,7 @@ int main() {
     vector<Item> items;
     for (auto& p1 : points){
         for (auto& p2 : points){
-            if (p1 == p2) continue;
-            if (p1.x == p2.x || p1.y == p2.y) { items.emplace_back(Item{p1, p2, 0}); continue; }
-
-            
+            if (p1 == p2) continue;           
 
             long long area = (static_cast<long long>((p2.x-p1.x)+1))*static_cast<long long>((abs(p2.y-p1.y)+1));
             items.emplace_back(Item{p1, p2, area});
@@ -47,8 +44,6 @@ int main() {
     sort(items.begin(), items.end(), compareItemArea);
     for (auto& item : items){ printItem(item); }
     
-    // auto max = *std::max_element(items.begin(),items.end(), [](const Item& a,const Item& b) { return a.area < b.area; });
-
     printf("Max area : %lld \n", items[0].area);
 
     return 0;
