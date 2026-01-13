@@ -1,6 +1,8 @@
 #pragma once
 #include <bits/stdc++.h>
+#include <math.h>
 using namespace std;
+
 
 #define MIN(x, y) (x < y ? x : y)
 #define MAX(x, y) (x > y ? x : y)
