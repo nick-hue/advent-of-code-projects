@@ -1,12 +1,6 @@
 
 #include "../../util.hpp"
 
-struct Point {
-    int x,y;
-} point;
-bool operator==(Point const& p1, Point const& p2) { return (p1.x == p2.x) && (p1.y == p2.y); }
-void printPoint(Point& p){ printf("%d-%d", p.x, p.y); }
-
 struct Item{
     Point point1;
     Point point2;
@@ -35,7 +29,7 @@ int main() {
         for (auto& p2 : points){
             if (p1 == p2) continue;           
 
-            long long area = (static_cast<long long>((p2.x-p1.x)+1))*static_cast<long long>((abs(p2.y-p1.y)+1));
+            long long area = 1LL * (static_cast<long long>((p2.x-p1.x)+1))*static_cast<long long>((abs(p2.y-p1.y)+1));
             items.emplace_back(Item{p1, p2, area});
         }
     }

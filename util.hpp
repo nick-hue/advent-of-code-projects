@@ -3,9 +3,15 @@
 #include <math.h>
 using namespace std;
 
-
 #define MIN(x, y) (x < y ? x : y)
 #define MAX(x, y) (x > y ? x : y)
+
+struct Point {
+    int x,y;
+} point;
+bool operator==(Point const& p1, Point const& p2) { return (p1.x == p2.x) && (p1.y == p2.y); }
+void printPoint(Point& p){ printf("%d-%d", p.x, p.y); }
+
 
 std::vector<std::string> readInput(std::string filename){
     std::fstream file;
