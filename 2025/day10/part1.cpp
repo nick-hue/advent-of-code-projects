@@ -20,8 +20,8 @@ vector<int> ParsePart(string& word, char open_char, char close_char){
     return result;
 }
 
-void switchBit(int index, string& str){
-    str[index] = str[index] == '1'?'0':'1';
+void switchBit(string& str, int index){
+    str[index] = str[index] == '#'?'.':'#';
 }
 
 struct Line
@@ -82,6 +82,10 @@ int main() {
     
     for (auto& l : part_lines){ printLine(l); }
 
+    string tetst = "#.##.";
+    printf("%s\n", tetst.c_str());
+    switchBit(tetst, 1);
+    printf("%s\n", tetst.c_str());
 
 
     return 0;
