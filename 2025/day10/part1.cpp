@@ -26,6 +26,7 @@ void switchBit(string& str, int index){
 
 struct Line
 {
+    string current_diagram;
     string light_diagram;
     vector<vector<int>> wirings_list;
     vector<int> joltage;
@@ -66,6 +67,9 @@ vector<Line> GetPartLines(vector<vector<string>>& split_lines){
             } 
         } 
         // printf("\n");
+        part.current_diagram = string (part.light_diagram.size(), '.');
+        part.current_diagram[0] = '['; part.current_diagram[part.current_diagram.size()-1] = ']';
+        printf("size %d\n", part.light_diagram.size());
         part_lines.emplace_back(part);
     }
     return part_lines;
@@ -86,6 +90,9 @@ int main() {
     printf("%s\n", tetst.c_str());
     switchBit(tetst, 1);
     printf("%s\n", tetst.c_str());
+
+    printf("%s\n", part_lines[0].current_diagram.c_str());
+    printf("%d\n", part_lines[0].current_diagram.size());
 
 
     return 0;
